@@ -2,7 +2,7 @@
 Makeshift middleware made so that I don't have to type/copy-paste the same code and modify it slightly for every request. 
 
 Middleware is used like this:
-
+```js
 	.post(checker({
 		headers: {
 			"content-type": {
@@ -25,7 +25,7 @@ Middleware is used like this:
 	}), (req, res) => {
     //...Your request here.
   }
-  
+```
 This was literally scrapped together in an hour (lots of revisions) so you shouldn't use this for anything other than quick tests.
 
 Pro Tip: express will convert headers like "Content-Type" to lower case, this middleware CHECKS for case discrepancies between the model's keys and the request's keys, but doesn't correct anything.
