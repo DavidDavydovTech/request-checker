@@ -23,8 +23,8 @@ Middleware is used like this:
 		}
 
 	}), (req, res) => {
-    //...Your request here.
-  }
+   		//...Your code here.
+  	}
 ```
 This was literally scrapped together in an hour (lots of revisions) so you shouldn't use this for anything other than quick tests.
 
