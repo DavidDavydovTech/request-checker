@@ -1,5 +1,3 @@
-// const _ = require('lodash')
-
 const exploreRequest = async (request, requestModel) => {
     const modelKeys = Object.keys(requestModel);
     const reqKeys = Object.keys(request);
@@ -92,38 +90,7 @@ const requestChecker = (requestModel) => {
         else{
             next();
         }
-
-        // let reqCheck = await exploreRequest(req, requestModel);
-
-        // res.status(reqCheck.status).json(reqCheck.message);
-        //     return
-        // next();
     }
-    
-    
-    // const contentType = req.header('Content-Type');
-
-
-    // switch(true){
-    //     case contentType == undefined:
-    //         res.status(400).json(`The "Content-Type" key isn't in the headers.`);
-            
-    //         next();
-    //         return
-
-    //     case contentType != "application/json":
-    //         res.status(400).json(`The api only accepts a "Content-Type" value of "application/json"`);
-            
-    //         next();
-    //         return
-
-    //     case req.body == undefined:
-    //     case req.body.API_query == undefined:
-    //         res.status(400).json(`The "API_query" key was missing from the JSON.`);
-            
-    //         next();
-    //         return
-    // }
 }
 
 module.exports = requestChecker;
