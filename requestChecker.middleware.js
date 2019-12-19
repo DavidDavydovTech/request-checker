@@ -1,6 +1,5 @@
-const exploreRequest = async (request, requestModel) => {
+const exploreRequest = (request, requestModel) => {
     const modelKeys = Object.keys(requestModel);
-    const reqKeys = Object.keys(request);
 
 
     let returnVariable = true
@@ -18,9 +17,9 @@ const exploreRequest = async (request, requestModel) => {
         }
     }
 
+    
     for(let key of modelKeys) {
-
-        if(returnVariable !== true){break;}
+        if(returnVariable !== true){return returnVariable}
         
         if(request[key.toLowerCase()] !== undefined && request[key] === undefined){
             returnVariable = {
@@ -30,10 +29,7 @@ const exploreRequest = async (request, requestModel) => {
         }
 
         if( typeof requestModel[key] == "object" && requestModel[key].rcRequired == undefined ){
-            console.log("Req Model: \n")
-            console.log(requestModel[key])
-            console.log("Req: \n")
-            console.log(request[key])
+
             if(request[key] !== undefined){
                 returnVariable = exploreRequest(request[key], requestModel[key]);
             }
@@ -48,7 +44,6 @@ const exploreRequest = async (request, requestModel) => {
         else{
             const field = requestModel[key];
             if(field.rcRequired === true){
-                console.log(field);
 
                 if(!request[key]){
                     returnVariable = {
