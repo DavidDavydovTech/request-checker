@@ -67,6 +67,10 @@ const exploreRequest = (request, requestModel) => {
                 }
                 
             }
+
+            if(field.message && returnVariable != true){
+                returnVariable.message = field.message;
+            }
         }
     }
 
