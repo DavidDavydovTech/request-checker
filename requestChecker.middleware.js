@@ -1,3 +1,5 @@
+// const _ = require('lodash')
+
 const exploreRequest = (request, requestModel) => {
     const modelKeys = Object.keys(requestModel);
 
@@ -51,7 +53,7 @@ const exploreRequest = (request, requestModel) => {
                         message: `You are missing the "${key}" field in your request.`
                     };
                 }
-                else if(field.type && typeof request[key] != field.type){
+                else if(field.type && typeof request[key] != field.type && (field.type == "number" && isNaN(request[key])? true: false)){
                     returnVariable = {
                         status: 400,
                         message: `"${key}" was expected to be a ${field.type}, but was a ${typeof request[key]} instead.`
