@@ -90,21 +90,34 @@ const exploreRequest = (request, requestModel) => {
 
 }
 
+// SECTION rcTarget - Describes a criteria and/or set of actions that is ran given a path.
 class rcTarget {
     constructor({
         rcPath,
         rcRequired = false,
         rcType,
         rcFunc,
+        rcFuncFirst = false,
         rcRejectMessage,
         rcRejectStatus = 415,
     }) {
+        this.runOrder = {
+            before: [],
+            main: [],
+            cleanup: [],
+        };
+        // ANCHOR rcRequired
+        if (rcRequired === true) {
+            this.rcRequired = true;
+            this.runOrder.before.push('rcRequired');
+        }
         // ANCHOR rcType
         if (rcType !== undefined) {
             if (validTypes.includes(rcType) === false){
                 throw new Error(`Expected rcType of ${path} to be a valid type but got ${rcType} instead.`);
             }
             this.rcType = rcType;
+            this.runOrder.main.push('rcType');
         }
         // ANCHOR rcFunc
         if (rcFunc !== undefined) {
@@ -112,10 +125,18 @@ class rcTarget {
                 throw new Error(`Expected rcFunc to be typeof function but got typeof ${typeof rcFunc} instead.`);
             }
             this.rcFunc = rcFunc;
+            if (rcFuncFirst === false) {
+                this.runOrder.before.push('rcFunc');
+            } else {
+                this.runOrder.main.push('rcFunc');
+            }
         }
+        // ANCHOR Reject message & status
+        this.rcRejectMessage = rcRejectMessage;
+        this.rcRejectStatus = rcRejectStatus;
     }
-
 }
+// !SECTION
 
 const requestChecker = (requestModel) => {
     return async (req, res, next) => {
