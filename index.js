@@ -1,4 +1,16 @@
-// const _ = require('lodash')
+const _get = require('lodash.get');
+const validTypes = [
+    'str',
+    'string',
+    'num',
+    'number',
+    'bool',
+    'boolean',
+    'obj',
+    'object',
+    'arr',
+    'array'
+];
 
 const exploreRequest = (request, requestModel) => {
     const modelKeys = Object.keys(requestModel);
@@ -75,6 +87,25 @@ const exploreRequest = (request, requestModel) => {
     }
 
     return returnVariable;
+
+}
+
+class rcTarget {
+    constructor({
+        rcPath,
+        rcRequired = false,
+        rcType,
+        rcRejectMessage,
+        rcRejectStatus = 415,
+    }) {
+        // ANCHOR rcType
+        if (rcType !== undefined) {
+            if (validTypes.includes(rcType) === false){
+                throw new Error(`Expected rcType of ${path} to be a valid type but got ${rcType} instead.`);
+            }
+            this.rcType = rcType;
+        }
+    }
 
 }
 

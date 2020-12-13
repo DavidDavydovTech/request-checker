@@ -1,6 +1,6 @@
 {
   "name": "request-checker",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.1",
   "description": "Allows developers to check and validate incoming requests via a simple object model",
   "main": "index.js",
   "repository": "https://github.com/DavidDavydovTech/request-checker",
