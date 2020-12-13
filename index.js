@@ -106,6 +106,9 @@ class rcTarget {
             main: [],
             cleanup: [],
         };
+        // ANCHOR Path
+        if (typeof rcPath !== array) throw new Error(`Expected rcPath to be typeof array but got ${typeof rcPath} instead.`);
+        this.rcPath = rcPath;
         // ANCHOR rcRequired
         if (rcRequired === true) {
             this.rcRequired = true;
@@ -114,7 +117,7 @@ class rcTarget {
         // ANCHOR rcType
         if (rcType !== undefined) {
             if (validTypes.includes(rcType) === false){
-                throw new Error(`Expected rcType of ${path} to be a valid type but got ${rcType} instead.`);
+                throw new Error(`Expected rcType of ${this.rcPath.join(' => ')} to be a valid variable type but got ${rcType} instead.`);
             }
             this.rcType = rcType;
             this.runOrder.main.push('rcType');
