@@ -95,6 +95,7 @@ class rcTarget {
         rcPath,
         rcRequired = false,
         rcType,
+        rcFunc,
         rcRejectMessage,
         rcRejectStatus = 415,
     }) {
@@ -104,6 +105,13 @@ class rcTarget {
                 throw new Error(`Expected rcType of ${path} to be a valid type but got ${rcType} instead.`);
             }
             this.rcType = rcType;
+        }
+        // ANCHOR rcFunc
+        if (rcFunc !== undefined) {
+            if (typeof rcFunc !== 'function'){
+                throw new Error(`Expected rcFunc to be typeof function but got typeof ${typeof rcFunc} instead.`);
+            }
+            this.rcFunc = rcFunc;
         }
     }
 
