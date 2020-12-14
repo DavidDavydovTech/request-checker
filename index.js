@@ -115,7 +115,7 @@ class rcTarget {
             cleanup: [],
         };
         // ANCHOR Path
-        if (typeof rcPath !== array) throw new Error(`Expected rcPath to be typeof array but got ${typeof rcPath} instead.`);
+        if (Array.isArray(rcPath) === false ) throw new Error(`Expected rcPath to be typeof array but got ${typeof rcPath} instead.`);
         this.rcPath = rcPath;
         // ANCHOR rcRequired
         if (rcRequired === true) {
@@ -152,7 +152,8 @@ class rcTarget {
 const requestChecker = (requestModel) => {
     targetList = [];
 
-    const traverseModel = (obj, path = []) => {
+    // ANCHOR Traverse the request model 
+    (traverseModel = (obj, path = []) => {
         // This first part is to check if this is a options object or not.
         let isOptionsObject = false;
         for (let key in obj) {
@@ -163,8 +164,10 @@ const requestChecker = (requestModel) => {
         }
         // IF it is a options object, turn it in to a rcTarget!
         if (isOptionsObject === true) {
+            console.log(path)
             let arguements = {...obj};
             arguements.rcPath = path;
+            console.log(arguements)
             targetList.push(new rcTarget(arguements));
         } else { // Otherwise run this function on this object's children IF they're an object.
             for (let key in obj) {
@@ -174,9 +177,7 @@ const requestChecker = (requestModel) => {
                 }
             }
         }
-    }
-
-    traverseModel(requestModel);
+    })(requestModel);
     console.log(targetList);
     
     return async (req, res, next) => {
