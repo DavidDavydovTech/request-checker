@@ -1,6 +1,6 @@
 {
   "name": "express-request-modeler",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Allows developers to check and validate incoming requests via a simple object model",
   "keywords": [
     "validate",

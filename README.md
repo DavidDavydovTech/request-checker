@@ -1,5 +1,5 @@
 # express-request-modeler
-## Summery
+## Summary
 
 This module allows you to validate express requests without the hassle of re-writting validation code for every route in your API.
 
