@@ -1,11 +1,24 @@
 {
   "name": "request-checker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Allows developers to check and validate incoming requests via a simple object model",
+  "keywords": [
+    "validate",
+    "validator",
+    "checker",
+    "model",
+    "express",
+    "request",
+    "api", "API",
+    "middleware", "middle-ware",
+    "node"
+  ],
   "main": "index.js",
   "repository": "https://github.com/DavidDavydovTech/request-checker",
-  "author": "David J. Davydov <davydovjd611@gmail.com>",
+  "author": "David J. Davydov <davydovjd611@gmail.com> (daviddavydov.tech)",
   "license": "MIT",
+  "private":false,
+  "engines": { "node": ">=12.0.0"},
   "dependencies": {
     "lodash.get": "^4.4.2"
   }
