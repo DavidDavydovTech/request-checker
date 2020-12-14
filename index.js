@@ -31,7 +31,7 @@ class rcTarget {
         rcType,
         rcFunc,
         rcFuncFirst = false,
-        rcRejectMessage,
+        rcRejectMessage = 'UNKOWN ERROR',
         rcRejectStatus = 415,
     }) {
         this.runOrder = {
@@ -73,12 +73,23 @@ class rcTarget {
     }
 
     validate(req, res) {
-        const { rcPath, rcRequired, rcType } = this;
+        const { 
+            rcPath, 
+            rcRequired, 
+            rcType, 
+            rcFunc, 
+            rcRejectStatus, 
+            rcRejectMessage 
+        } = this;
+
         const value = _get(req, rcPath);
+
         if (rcRequired === true && value === undefined) {
             res.status(422).send(`Your request is missing a required value [${rcPath.join(' => ')}] ${typeof rcType === 'string' ? `<typeof ${rcType.toUppercase()}>` : '<typeof ANY>'})`);
             return false;
-        } else if (value !== undefined) {
+        }
+        
+        if (value !== undefined) {
             if (rcType !== undefined) {
                 if (['arr','array'].includes(rcType) && Array.isArray(value) === false) {
                     res.status(422).send(`Expected value [${rcPath.join(' => ')}] to be <typeof ARRAY> but got <typeof ${(typeof value).toUpperCase()}> instead.`)
@@ -92,6 +103,15 @@ class rcTarget {
                 }
             }
         }
+
+        if (this.hasOwnProperty('rcFunc')) {
+            const isValid = rcFunc(value);
+            if (isValid === false) {
+                res.status(rcRejectStatus).send(rcRejectMessage);
+                return false;
+            }
+        }
+        return true;
     }
 }
 // !SECTION
