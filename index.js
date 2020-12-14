@@ -146,11 +146,19 @@ class rcTarget {
         this.rcRejectMessage = rcRejectMessage;
         this.rcRejectStatus = rcRejectStatus;
     }
+
+    validate(req, res) {
+        const { rcPath, rcRequired, rcType } = this;
+        const value = _get(req, rcPath);
+        if (rcRequired === true && value === undefined) {
+            res.status(422).send(`Your request is missing a required value (${rcPath.join(' => ') + typeof rcType === 'string' ? `<typeof ${rcType.toUppercase()}>` : '<typeof ANY>'})`)
+        } 
+    }
 }
 // !SECTION
 
 const requestChecker = (requestModel) => {
-    targetList = [];
+    const targetList = [];
 
     // ANCHOR Traverse the request model 
     (traverseModel = (obj, path = []) => {
@@ -181,17 +189,17 @@ const requestChecker = (requestModel) => {
     console.log(targetList);
     
     return async (req, res, next) => {
-
-        
-        let reqCheck = await exploreRequest(req, requestModel);
-
-        if(typeof reqCheck == "object" && reqCheck.status && reqCheck.message){
-            res.status(reqCheck.status).json(reqCheck.message);
-            return
+        // Go through all targets in the targets array
+        for (let target of targetList) {
+            // Check the validity of the target
+            const valid = target.validate(req, res);
+            // If the request isn't valid the method above has already sent a error message and we need to escape the loop/function.
+            if (valid !== true) {
+                return;
+            }
         }
-        else{
-            next();
-        }
+        // If we didn't escape the function in the code above everything probably lines up and we can keep going. 
+        next();
     }
 }
 
