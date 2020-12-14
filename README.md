@@ -12,31 +12,32 @@ Request-checker was born in mid-winter 2018 when I was doing web-APIs for the fi
 Request-checker is a express middleware meant to be implemented at the router-level. Below you can find a simple example.
 
 ```js
-	const app = require('express')();
-	const requestChecker = require('request-checker');
-	
-	app.route('/message')
-		.post(
-			[
-				requestChecker({
-					body: {
-						message: {
-							rcRequired: true,
-							rcType: 'string'
-						}
+const app = require('express')();
+const requestChecker = require('request-checker');
+
+app.route('/message')
+	.post(
+		[
+			requestChecker({
+				body: {
+					message: {
+						rcRequired: true,
+						rcType: 'string'
 					}
-				})
-			], 
-			(req, res) => {
-				//...push message to database...
-			}
+				}
+			})
+		], 
+		(req, res) => {
+			//...push message to database...
+		}
 ```
 
 In the example above the request will never hit the `(req, res) => {}` function below `requestChecker` unless there is a field called message within the body who's value is the typeof `string`. 
 
+## Validation Options
 Below you can find a list of different options for validation.
 
-| Header  | Second Header |
+| Key Name  | Expected Input | About | 
 | ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
+| rcRequired | <boolean> | If set to true the request MUST contain this key-value pair or the request bounces. |
+| rcType  | <string> | If this key-pair is present in the request and the value's type does not match rcType the request will bounce. |
