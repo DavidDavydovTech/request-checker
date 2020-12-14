@@ -1,3 +1,4 @@
+const { isArray } = require('lodash');
 const _get = require('lodash.get');
 const validTypes = [
     'str',
@@ -20,7 +21,9 @@ const validRcTypes = [
     'rcRejectStatus',
 ];
 
-// SECTION rcTarget - Describes a criteria and/or set of actions that is ran given a path.
+// SECTION rcTarget
+//
+// Describes a criteria and/or set of actions that is ran given a path.
 class rcTarget {
     constructor({
         rcPath,
@@ -73,16 +76,29 @@ class rcTarget {
         const { rcPath, rcRequired, rcType } = this;
         const value = _get(req, rcPath);
         if (rcRequired === true && value === undefined) {
-            res.status(422).send(`Your request is missing a required value (${rcPath.join(' => ') + typeof rcType === 'string' ? `<typeof ${rcType.toUppercase()}>` : '<typeof ANY>'})`)
-        } 
+            res.status(422).send(`Your request is missing a required value [${rcPath.join(' => ')}] ${typeof rcType === 'string' ? `<typeof ${rcType.toUppercase()}>` : '<typeof ANY>'})`);
+            return false;
+        } else if (value !== undefined) {
+            if (rcType !== undefined) {
+                if (['arr','array'].includes(rcType) && Array.isArray(value) === false) {
+                    res.status(422).send(`Expected value [${rcPath.join(' => ')}] to be <typeof ARRAY> but got <typeof ${(typeof value).toUpperCase()}> instead.`)
+                    return false;
+                } else if (['obj','object'].includes(rcType) && Array,isArray === true) {
+                    res.status(422).send(`Expected value [${rcPath.join(' => ')}] to be <typeof OBJECT> but got <typeof ${(typeof value).toUpperCase()}> instead.`)
+                    return false;
+                } else if (typeof value !== rcType) {
+                    res.status(422).send(`Expected value [${rcPath.join(' => ')}] to be <typeof ${rcType.toUpperCase()}> but got <typeof ${(typeof value).toUpperCase()}> instead.`)
+                    return false;
+                }
+            }
+        }
     }
 }
 // !SECTION
 
 const requestChecker = (requestModel) => {
     const targetList = [];
-
-    // ANCHOR Traverse the request model 
+    // SECTION Traverse Model
     (traverseModel = (obj, path = []) => {
         // This first part is to check if this is a options object or not.
         let isOptionsObject = false;
@@ -109,7 +125,9 @@ const requestChecker = (requestModel) => {
         }
     })(requestModel);
     console.log(targetList);
+    // !SECTION
     
+    // SECTION Middleware
     return async (req, res, next) => {
         // Go through all targets in the targets array
         for (let target of targetList) {
@@ -123,6 +141,7 @@ const requestChecker = (requestModel) => {
         // If we didn't escape the function in the code above everything probably lines up and we can keep going. 
         next();
     }
+    // !SECTION
 }
 
 module.exports = requestChecker;
