@@ -30,6 +30,7 @@ class rcTarget {
         rcRequired = false,
         rcType,
         rcFunc,
+        rcMatching,
         rcFuncFirst = false,
         rcRejectMessage = 'UNKOWN ERROR',
         rcRejectStatus = 415,
@@ -55,6 +56,13 @@ class rcTarget {
             this.rcType = rcType;
             this.runOrder.main.push('rcType');
         }
+        // ANCHOR rcMatching
+        if (rcMatching !== undefined) {
+            if (['function', 'object'].includes[(typeof rcMatching)]) {
+                throw new Error(`Expected rcMatching of [${this.rcPath.join(' => ')}] to be typeof string, number, or boolean but got ${typeof rcMatching} instead (did you mean to use rcFunc?)`);
+            }
+            this.rcMatching = rcMatching;
+        }
         // ANCHOR rcFunc
         if (rcFunc !== undefined) {
             if (typeof rcFunc !== 'function'){
@@ -77,7 +85,8 @@ class rcTarget {
             rcPath, 
             rcRequired, 
             rcType, 
-            rcFunc, 
+            rcFunc,
+            rcMatching,
             rcRejectStatus, 
             rcRejectMessage 
         } = this;
@@ -99,6 +108,13 @@ class rcTarget {
                     return false;
                 } else if (typeof value !== rcType) {
                     res.status(422).send(`Expected value [${rcPath.join(' => ')}] to be <typeof ${rcType.toUpperCase()}> but got <typeof ${(typeof value).toUpperCase()}> instead.`)
+                    return false;
+                }
+            }
+
+            if (rcMatching !== undefined) {
+                if(value !== rcMatching) {
+                    res.status(422).send(`Expected value [${rcPath.join(' => ')}] to be ${rcMatching}`);
                     return false;
                 }
             }
