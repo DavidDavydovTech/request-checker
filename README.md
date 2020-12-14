@@ -78,7 +78,7 @@ app.route('/message')
 		], 
 		(req, res) => {
 			//...push message to database...
-		}
+		});
 ```
 
 ## Planned features
