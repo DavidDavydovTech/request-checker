@@ -5,11 +5,11 @@ This module allows you to validate express requests without the hassle of re-wri
 
 ## About
 
-Express-request-modeler was born in mid-winter 2018 when I was doing web-APIs for the first time in my life. I got sick and tired of copy-pasting slightly different versions of the same code in to every post request, but every route was just different enough that I had no other choice. I ultimately made the precursor to this module (`Express-Request-Checker`, not to be confused with <https://www.npmjs.com/package/express-request-checker>[pastgift's npm module of the same name]), but anyone who isn't an absolute newbie could see that my module was a horrifying mess. Now in lm mid-winter 2020 I've come back to writing web-apis and have ran in to the same problem, so with experence and hindsight on my side I decided to create this module for me and others who need a simple and easy to implement request validator.
+Express-request-modeler was born in mid-winter 2018 when I was doing web-APIs for the first time in my life. I got sick and tired of copy-pasting slightly different versions of the same code in to every post request, but every route was just different enough that I had no other choice. I ultimately made the precursor to this module (`Express-Request-Checker`, not to be confused with [pastgift's npm module of the same name](https://www.npmjs.com/package/express-request-checker)), but anyone who isn't an absolute newbie could see that my module was a horrifying mess. Now in lm mid-winter 2020 I've come back to writing web-apis and have ran in to the same problem, so with experence and hindsight on my side I decided to create this module for me and others who need a simple and easy to implement request validator/modeler.
 
 ## How to Use
 
-express-Request-modeler is a express middleware meant to be implemented at the router-level. Below you can find a simple example.
+Express-request-modeler is a express middleware meant to be implemented at the router-level. Below you can find a simple example.
 
 ```js
 const app = require('express')();
@@ -30,7 +30,7 @@ app.route('/message')
 		], 
 		(req, res) => {
 			//...push message to database...
-		}
+		});
 ```
 
 In the example above the request will never hit the `(req, res) => {}` function below `reqModel` unless there is a field called message within the body who's value is the typeof `string`. 
