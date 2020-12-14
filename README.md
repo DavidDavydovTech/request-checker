@@ -1,25 +1,25 @@
-# request-checker
+# express-request-modeler
 ## Summery
 
 This module allows you to validate express requests without the hassle of re-writting validation code for every route in your API.
 
 ## About
 
-Request-checker was born in mid-winter 2018 when I was doing web-APIs for the first time in my life. I got sick and tired of copy-pasting slightly different versions of the same code in to every post request, but every route was just different enough that I had no other choice. I ultimately made the precursor to this module (`Express-Request-Checker`), but anyone who isn't an absolute newbie could see that my module was a horrifying mess. Now in lm mid-winter 2020 I've come back to writing web-apis and have ran in to the same problem, so with experence and hindsight on my side I decided to create this module for me and others who need a simple and easy to implement request validator.
+Express-request-modeler was born in mid-winter 2018 when I was doing web-APIs for the first time in my life. I got sick and tired of copy-pasting slightly different versions of the same code in to every post request, but every route was just different enough that I had no other choice. I ultimately made the precursor to this module (`Express-Request-Checker`, not to be confused with <https://www.npmjs.com/package/express-request-checker>[pastgift's npm module of the same name]), but anyone who isn't an absolute newbie could see that my module was a horrifying mess. Now in lm mid-winter 2020 I've come back to writing web-apis and have ran in to the same problem, so with experence and hindsight on my side I decided to create this module for me and others who need a simple and easy to implement request validator.
 
 ## How to Use
 
-Request-checker is a express middleware meant to be implemented at the router-level. Below you can find a simple example.
+express-Request-modeler is a express middleware meant to be implemented at the router-level. Below you can find a simple example.
 
 ```js
 const app = require('express')();
 app.use(json());
-const requestChecker = require('request-checker');
+const reqModel = require('express-request-modeler');
 
 app.route('/message')
 	.post(
 		[
-			requestChecker({
+			reqModel({
 				body: {
 					message: {
 						rcRequired: true,
@@ -33,7 +33,7 @@ app.route('/message')
 		}
 ```
 
-In the example above the request will never hit the `(req, res) => {}` function below `requestChecker` unless there is a field called message within the body who's value is the typeof `string`. 
+In the example above the request will never hit the `(req, res) => {}` function below `reqModel` unless there is a field called message within the body who's value is the typeof `string`. 
 
 ## Validation Options
 Below you can find a list of different options for validation.
@@ -48,12 +48,12 @@ Below you can find a list of different options for validation.
 ## Advanced Example
 ```js
 const app = require('express')();
-const requestChecker = require('request-checker');
+const reqModel = require('express-request-modeler');
 
 app.route('/message')
 	.post(
 		[
-			requestChecker({
+			reqModel({
 				headers: {
 					'content-type': {
 						rcMatching: 'application/json',
