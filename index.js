@@ -146,10 +146,8 @@ const requestChecker = (requestModel) => {
         }
         // IF it is a options object, turn it in to a rcTarget!
         if (isOptionsObject === true) {
-            console.log(path)
             let arguements = {...obj};
             arguements.rcPath = path;
-            console.log(arguements)
             targetList.push(new rcTarget(arguements));
         } else { // Otherwise run this function on this object's children IF they're an object.
             for (let key in obj) {
@@ -160,7 +158,6 @@ const requestChecker = (requestModel) => {
             }
         }
     })(requestModel);
-    console.log(targetList);
     // !SECTION
     
     // SECTION Middleware
