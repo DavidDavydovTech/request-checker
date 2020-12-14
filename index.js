@@ -11,6 +11,14 @@ const validTypes = [
     'arr',
     'array'
 ];
+const validRcTypes = [
+    'rcRequired',
+    'rcType',
+    'rcFunc',
+    'rcFuncFirst',
+    'rcRejectMessage',
+    'rcRejectStatus',
+];
 
 const exploreRequest = (request, requestModel) => {
     const modelKeys = Object.keys(requestModel);
@@ -142,6 +150,35 @@ class rcTarget {
 // !SECTION
 
 const requestChecker = (requestModel) => {
+    targetList = [];
+
+    const traverseModel = (obj, path = []) => {
+        // This first part is to check if this is a options object or not.
+        let isOptionsObject = false;
+        for (let key in obj) {
+            if (validRcTypes.includes(key)) {
+                isOptionsObject = true;
+                break;
+            }
+        }
+        // IF it is a options object, turn it in to a rcTarget!
+        if (isOptionsObject === true) {
+            let arguements = {...obj};
+            arguements.rcPath = path;
+            targetList.push(new rcTarget(arguements));
+        } else { // Otherwise run this function on this object's children IF they're an object.
+            for (let key in obj) {
+                if (typeof obj[key] === 'object') {
+                    let newPath = [...path, key];
+                    traverseModel(obj[key], newPath);
+                }
+            }
+        }
+    }
+
+    traverseModel(requestModel);
+    console.log(targetList);
+    
     return async (req, res, next) => {
 
         
