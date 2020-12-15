@@ -90,8 +90,8 @@ app.route('/message')
 &nbsp;
 ## Planned features
 
- [ ] Allow a custom reject message for every rejection type.
- [ ] Suppress detailed rejection messages.
- [ ] An alternative to rcFunc that can mutate the request value.
- [ ] Allow users to change the order in which validation checks occur.
- [ ] Allow rcFunc to be an Async function (so that it can be used for things like validating user sessions or querying a database for validation.)
+ * Allow a custom reject message for every rejection type.
+ * Suppress detailed rejection messages.
+ * An alternative to rcFunc that can mutate the request value.
+ * Allow users to change the order in which validation checks occur.
+ * Allow rcFunc to be an Async function (so that it can be used for things like validating user sessions or querying a database for validation.)
