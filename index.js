@@ -94,7 +94,7 @@ class rcTarget {
         const value = _get(req, rcPath);
 
         if (rcRequired === true && value === undefined) {
-            res.status(422).send(`Your request is missing a required value [${rcPath.join(' => ')}] ${typeof rcType === 'string' ? `<typeof ${rcType.toUppercase()}>` : '<typeof ANY>'})`);
+            res.status(422).send(`Your request is missing a required value [${rcPath.join(' => ')}] ${typeof rcType === 'string' ? `<typeof ${rcType.toUpperCase()}>` : '<typeof ANY>'})`);
             return false;
         }
         
