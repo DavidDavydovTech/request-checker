@@ -10,16 +10,32 @@
     "modeler",
     "express",
     "request",
-    "api", "API",
-    "middleware", "middle-ware",
+    "api",
+    "API",
+    "middleware",
+    "middle-ware",
     "node"
   ],
   "main": "index.js",
   "repository": "https://github.com/DavidDavydovTech/request-checker",
   "author": "David J. Davydov <davydovjd611@gmail.com> (daviddavydov.tech)",
   "license": "MIT",
-  "private":false,
+  "private": false,
   "dependencies": {
     "lodash.get": "^4.4.2"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "jest-nyancat-reporter": "^2.0.0"
+  },
+  "jest": {
+    "reporters": [
+      [
+        "jest-nyancat-reporter",
+        {
+          "suppressErrorReporter": false
+        }
+      ]
+    ]
   }
 }
